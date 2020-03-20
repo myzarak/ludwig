@@ -101,7 +101,10 @@ def convert_input(form):
             named_file.close()
             new_input[k] = named_file.name
         else:
-            new_input[k] = v
+            if v == '':
+                new_input[k] = None
+            else:
+                new_input[k] = v
 
     return (files, new_input)
 

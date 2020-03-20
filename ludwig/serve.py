@@ -80,28 +80,6 @@ def server(model):
         finally:
             for f in files:
                 os.remove(f.name)
-                
-    @app.post('/predict_json')
-    async def predict_json(request: Request):
-        files = []
-        print (request)
-        entry = request
-
-        try:
-            if (entry.keys() & input_features) != input_features:
-                return JSONResponse(ALL_FEATURES_PRESENT_ERROR,
-                                    status_code=400)
-            try:
-                resp = model.predict(data_dict=[entry]).to_dict('records')[0]
-                return JSONResponse(resp)
-            except Exception as e:
-                logger.error("Error: {}".format(str(e)))
-                return JSONResponse(COULD_NOT_RUN_INFERENCE_ERROR,
-                                    status_code=500)
-        finally:
-            for f in files:
-                os.remove(f.name)
-                
     return app
 
 
